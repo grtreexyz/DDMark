@@ -1,0 +1,4 @@
+<!--index.wxml-->
+<view class="container">
+  <button bindtap="bindTap" class="choose" type="primary" style="display:{{buttonstatus}}">选择图片</button>
+</view>

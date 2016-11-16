@@ -1,0 +1,9 @@
+<navigator url="scale"><button>scale</button></navigator>
+<navigator url="rotate"><button>rotate</button></navigator>
+<navigator url="translate"><button>translate</button></navigator>
+<navigator url="clearrect"><button>clearRect</button></navigator>
+<navigator url="drawimage"><button>drawImage</button></navigator>
+<navigator url="filltext"><button>fillText</button></navigator>
+<navigator url="setfillstyle"><button>setFillStyle</button></navigator>
+<navigator url="line"><button>line</button></navigator>
+<navigator url="smile"><button>smile</button></navigator>

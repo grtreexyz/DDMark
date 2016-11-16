@@ -1,0 +1,2 @@
+<!--smile.wxml -->
+<canvas canvas-id="smile" style="height:750rpx;width:750rpx;" />

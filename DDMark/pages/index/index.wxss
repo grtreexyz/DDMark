@@ -1,0 +1,22 @@
+.container{
+  width:100vw;
+  display: block;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  padding: 0;
+}
+.choose{
+  position:absolute;
+  top:30vh;
+  left:30vw;
+  border-radius: 50%;
+  width:40vw;
+  height:40vw;
+  text-align:center;
+  font-size: larger;
+  line-height:40vw;
+}

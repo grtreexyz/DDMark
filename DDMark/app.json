@@ -1,0 +1,23 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/cvs/cvs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "叮咚图片注记"
+  },
+  "tabBar": {
+    "list":[{
+        "pagePath": "pages/index/index",
+        "text": "index"
+      },
+      {
+        "pagePath": "pages/cvs/cvs",
+        "text": "cvs"
+      }]
+  },
+  "debug": true
+}

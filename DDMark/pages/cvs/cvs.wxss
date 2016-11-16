@@ -1,0 +1,11 @@
+.container{
+  width:100vw;
+  display: block;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  padding: 0;
+}

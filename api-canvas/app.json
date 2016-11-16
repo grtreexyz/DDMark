@@ -1,0 +1,22 @@
+{
+  "pages":[
+    "index",
+    "scale",
+    "rotate",
+    "translate",
+    "clearrect",
+    "filltext",
+    "drawimage",
+    "setfillstyle",
+    "line",
+    "smile"
+  ],
+  "window":{    
+ 	"navigationBarBackgroundColor":"#74c060",
+    "navigationBarTitleStyle":"black",
+    "navigationBarTitleText": "canvas",
+    "statusBarTextStyle":"black",
+    "backgroundColor":"#808080",
+    "backgroundTextStyle":"light"
+  }
+}

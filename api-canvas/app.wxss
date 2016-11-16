@@ -1,0 +1,20 @@
+wx-view{
+	height:100px;
+	width:100%;
+	background-color:pink;
+}
+
+.text-view{
+	background-color:green;
+}
+
+canvas{
+	width:750rpx;
+	height:750rpx;
+}
+
+.canvas{
+	width:750rpx;
+	height:750rpx;
+}
+

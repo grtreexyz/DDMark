@@ -1,8 +1,8 @@
 //app.js
 App({
   globalData: {
-    userInfo: null
   },
+  imgObj:{},
   w: 0,
   h: 0,
   wh: 0,

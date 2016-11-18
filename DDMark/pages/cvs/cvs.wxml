@@ -1,3 +1,13 @@
-<view class="container">
-  <canvas style="width:{{width}};height:{{height}};" canvas-id="target" id="target"></canvas>
+<view class="container" catchtouchstart="cvsStart" catchtouchmove="cvsMove" catchtouchend="cvsEnd">
+  <view class="cvs">
+    <view class="box">
+      <canvas style="width:{{width}};height:{{height}};transform:{{cvsTransform}}" canvas-id="target" id="target"></canvas>
+    </view>
+  </view>
+  <view class="tools">
+      <button catchtap="moveandzoom">移动缩放</button>
+      <button catchtap="markStroke">画图标记</button>
+      <button catchtap="markText">文字注记</button>
+      <button catchtap="saveimg">保存图片</button>
+  </view>
 </view>

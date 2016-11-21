@@ -4,9 +4,6 @@ var app = getApp()
 Page({
   data: {
     buttonstatus: 'block',
-    canvastatus: "none",
-    width: "200px",
-    height: "200px",
   },
   //事件处理函数
   bindTap: function () {

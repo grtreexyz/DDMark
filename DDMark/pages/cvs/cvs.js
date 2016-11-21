@@ -1,12 +1,10 @@
 var app = getApp();
 var x00, x01, y00, y01, x10, x11, y10, y11;
 var scale = 1, left = 0, top = 0;
+var cvszoom = require('../../utils/cvszoom.js')
 Page({
   data: {
-    width: "200px",
-    height: "200px",
-    operate: "moveandzoom",
-    cvsTransform: "matrix(1,0,0,1,0,0)",
+    operate:"moveandzoom",
   },
   moveandzoom: function () {
     this.data.operate = "moveandzoom";
@@ -18,6 +16,7 @@ Page({
     this.data.operate = "markStroke";
   },
   cvsStart: function (e) {
+    console.log(e.currentTarget.id);
     var self = this;
     switch (self.data.operate) {
       case "moveandzoom":
@@ -117,41 +116,18 @@ Page({
     var self = this;
     console.log(app.w);
     console.log(app.h);
-
-    var context = wx.createContext();
-    // context.setStrokeStyle("#00ff00");
-    // context.setLineWidth(5);
-    // context.rect(0, 0, 200, 200);
-    // context.stroke();
-    // context.setStrokeStyle("#ff0000");
-    // context.setLineWidth(2);
-    // context.moveTo(160, 100);
-    // context.arc(100, 100, 60, 0, 2 * Math.PI, true);
-    // context.moveTo(140, 100);
-    // context.arc(100, 100, 40, 0, Math.PI, false);
-    // context.moveTo(85, 80);
-    // context.arc(80, 80, 5, 0, 2 * Math.PI, true);
-    // context.moveTo(125, 80);
-    // context.arc(120, 80, 5, 0, 2 * Math.PI, true);
-    // context.stroke();
-    app.imgObj.imgPath&&context.drawImage(app.imgObj.imgPath, 0, 0,200,200);
-    // context.setFillStyle("#ff00ff")
-    // context.rect(0, 0, 800, 800)
-    // context.fill()
-    wx.drawCanvas({
-      canvasId: 'target',
-      actions: context.getActions() // 获取绘图动作数组
-    });
-  },
-  containmove:function(){
-    console.log("containmove");
-  },
-  onPullDownRefresh: function() {
-    // Do something when pull down.
-    console.log('onPullDownRefresh');
-  },
-  // onReachBottom: function() {
-  //   // Do something when page reach bottom.
-  //   console.log('onReachBottom');
-  // },
+    cvszoom({
+      canvasId:'target',
+      width:app.w,
+      height:app.h-40
+    },app.imgObj.imgPath);
+        //var draw = wx.createContext();
+        //draw.clearRect(0,0,app.w,app.h);
+        //draw.drawImage(imgPath, left, top, width, height);
+        // draw.drawImage(app.imgObj.imgPath, 0,0);
+        // wx.drawCanvas({
+        //     canvasId: 'target',
+        //     actions: draw.getActions()
+        // });
+  }
 })

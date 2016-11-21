@@ -23,14 +23,14 @@
   z-index: 2;
 }
 .cvs{
-  width:200px;
-  height:200px;
+  width:100%;
+  height:100%;
   overflow: hidden;
   box-sizing: border-box;
   padding-bottom: 40px;
   z-index: 1;
 }
-.box{
+canvas{
   width:100%;
   height:100%;
   overflow: hidden;

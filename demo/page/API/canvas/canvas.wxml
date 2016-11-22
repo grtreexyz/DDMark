@@ -6,7 +6,7 @@
 
   <view class="page-body">
     <view class="page-body-wrapper">
-      <canvas class="canvas-element" canvas-id="canvas"></canvas>
+      <canvas disable-scroll="true" class="canvas-element" canvas-id="canvas"></canvas>
       <view class="canvas-buttons" scroll-y="true">
         <block wx:for="{{methods}}" wx:for-item="method">
           <button class="canvas-button" bindtap="{{method}}">{{method}}</button>

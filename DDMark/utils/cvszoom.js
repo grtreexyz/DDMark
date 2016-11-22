@@ -65,10 +65,45 @@ module.exports = function (cvs, imgPath, options) {
                 actions: draw
             });
         };
+        var scale=function(s){
+            var ow=width;
+            var oh=height;
+            width=ow*s;
+            height=oh*s;
+            width>fullWidth*defaults.overScaleTimes&&(width=fullWidth*defaults.overScaleTimes);
+            height>fullHeight*defaults.overScaleTimes&&(height=fullHeight*defaults.overScaleTimes);
+            width<100&&(width=100);
+            height<100&&(height=100);
+            left+=(ow-width)/2;
+            top+=(oh-height)/2;
+
+            var context = wx.createContext();
+            context.clearRect(0,0,w,h);
+            context.drawImage(imgPath, left, top, width, height);
+            var draw=context.getActions();
+            console.log(JSON.stringify(draw));
+            wx.drawCanvas({
+                canvasId: id,
+                actions: draw
+            });
+        }
+        var move=function(x,y){
+            left+=x;
+            top+=y;
+            var context = wx.createContext();
+            context.clearRect(0,0,w,h);
+            context.drawImage(imgPath, left, top, width, height);
+            var draw=context.getActions();
+            console.log(JSON.stringify(draw));
+            wx.drawCanvas({
+                canvasId: id,
+                actions: draw
+            });
+        }
         initdraw();
         return {
             initdraw:initdraw,
-            // scale: scale,
-            // move: move
+            scale: scale,
+            move: move
         }
     }

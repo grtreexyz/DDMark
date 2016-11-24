@@ -9,6 +9,8 @@ var drawArray=[];
 Page({
   data: {
     operate: "moveandzoom",
+    width:100,
+    height:100
   },
   moveandzoom: function () {
     this.data.operate = "moveandzoom";
@@ -20,21 +22,21 @@ Page({
     this.data.operate = "markStroke";
   },
   cvsStart: function (e) {
-    console.log(e.currentTarget.id);
+    //console.log(e.currentTarget.id);
     var self = this;
     switch (self.data.operate) {
       case "moveandzoom":
         if (e.touches.length == 2) {//双指缩放的手势操作
           var t = e.touches;
-          x00 = t[0].pageX;
-          y00 = t[0].pageY;
-          x01 = t[1].pageX;
-          y01 = t[1].pageY;
+          x00 = t[0].x;
+          y00 = t[0].y;
+          x01 = t[1].x;
+          y01 = t[1].y;
         }
         if (e.touches.length == 1) {//移动单指操作
           var t = e.touches;
-          x00 = t[0].pageX;
-          y00 = t[0].pageY;
+          x00 = t[0].x;
+          y00 = t[0].y;
         }
         break;
       case "markText":
@@ -43,8 +45,8 @@ Page({
       case "markStroke":
         console.log("markStrokestart");
         var t = e.touches;
-        x00 = t[0].pageX;
-        y00 = t[0].pageY;
+        x00 = t[0].x;
+        y00 = t[0].y;
         context.beginPath();
         context.setLineWidth(10);
         context.setLineCap("round");
@@ -67,17 +69,17 @@ Page({
       case "moveandzoom":
         if (e.touches.length == 2) {//双指缩放的手势操作
           var t = e.touches;
-          x10 = t[0].pageX;
-          x11 = t[1].pageX;
-          y10 = t[0].pageY;
-          y11 = t[1].pageY;
+          x10 = t[0].x;
+          x11 = t[1].x;
+          y10 = t[0].y;
+          y11 = t[1].y;
           scale = Math.sqrt(((x11 - x10) * (x11 - x10) + (y11 - y10) * (y11 - y10)) / ((x01 - x00) * (x01 - x00) + (y01 - y00) * (y01 - y00)));
           cvs.scale(scale);
         }
         if (e.touches.length == 1) {//移动单指操作
           var t = e.touches;
-          x10 = t[0].pageX;
-          y10 = t[0].pageY;
+          x10 = t[0].x;
+          y10 = t[0].y;
           var x = x10 - x00;
           var y = y10 - y00;
           cvs.move(x, y);
@@ -91,9 +93,9 @@ Page({
       case "markStroke":
         console.log("markStrokemove");
         var t = e.touches;
-        if(x00 == t[0].pageX && y00 == t[0].pageY) return;
-        x00 = t[0].pageX;
-        y00 = t[0].pageY;      
+        if(x00 == t[0].x && y00 == t[0].y) return;
+        x00 = t[0].x;
+        y00 = t[0].y;      
         context.lineTo(x00,y00);
         context2.lineTo(x00,y00);
         context.stroke();
@@ -137,15 +139,21 @@ Page({
       },
     });
   },
+  onLoad:function(){
+    this.setData({
+      width:app.w,
+      height:app.h-200
+    });
+  },
   onReady: function () {
     var self = this;
     console.log(app.w);
     console.log(app.h);
-    cvs = cvszoom({
-      canvasId: 'target',
-      width: app.w,
-      height: app.h - 40
-    }, app.imgObj.imgPath);
+    // cvs = cvszoom({
+    //   canvasId: 'target',
+    //   width: app.w,
+    //   height: app.h - 40
+    // }, app.imgObj.imgPath);
 
 
         context.beginPath();

@@ -1,11 +1,9 @@
 <view class="container">
-  <view disable-scroll="true" scroll-y="true" catchscroll="" class="cvs">
-      <canvas disable-scroll="true" catchtouchstart="cvsStart" catchtouchmove="cvsMove" catchtouchend="cvsEnd" canvas-id="target" id="target"></canvas>
-  </view>
+  <canvas disable-scroll="true" bindtouchstart="cvsStart" bindtouchmove="cvsMove" bindtouchend="cvsEnd" canvas-id="target" id="target" style='width:{{width}}px;height:{{height}}px'></canvas>
   <view class="tools">
-      <button catchtap="moveandzoom">移动缩放</button>
-      <button catchtap="markStroke">画图标记</button>
-      <button catchtap="markText">文字注记</button>
-      <button catchtap="saveimg">保存图片</button>
+    <button catchtap="moveandzoom">移动缩放</button>
+    <button catchtap="markStroke">画图标记</button>
+    <button catchtap="markText">文字注记</button>
+    <button catchtap="saveimg">保存图片</button>
   </view>
 </view>

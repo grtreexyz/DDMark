@@ -48,7 +48,6 @@ module.exports = function (cvs, imgPath, options) {
         left = (w - width) / 2;
         top = (h - height) / 2;
         var context = wx.createContext();
-        context.clearRect(0, 0, w, h);
         context.drawImage(imgPath, left, top, width, height);
         var draw = context.getActions();
         console.log(JSON.stringify(draw));
@@ -70,7 +69,6 @@ module.exports = function (cvs, imgPath, options) {
         top += (oh - height) / 2;
 
         var context = wx.createContext();
-        context.clearRect(0, 0, w, h);
         context.drawImage(imgPath, left, top, width, height);
         var draw = context.getActions();
         console.log(JSON.stringify(draw));
@@ -83,7 +81,6 @@ module.exports = function (cvs, imgPath, options) {
         left += x;
         top += y;
         var context = wx.createContext();
-        context.clearRect(0, 0, w, h);
         context.drawImage(imgPath, left, top, width, height);
         var draw = context.getActions();
         console.log(JSON.stringify(draw));

@@ -74,7 +74,7 @@ Page({
           y10 = t[0].y;
           y11 = t[1].y;
           scale = Math.sqrt(((x11 - x10) * (x11 - x10) + (y11 - y10) * (y11 - y10)) / ((x01 - x00) * (x01 - x00) + (y01 - y00) * (y01 - y00)));
-          cvs.scale(scale);
+          cvs&&cvs.scale(scale);
         }
         if (e.touches.length == 1) {//移动单指操作
           var t = e.touches;
@@ -82,7 +82,7 @@ Page({
           y10 = t[0].y;
           var x = x10 - x00;
           var y = y10 - y00;
-          cvs.move(x, y);
+          cvs&&cvs.move(x, y);
           x00 = x10;
           y00 = y10;
         }

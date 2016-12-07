@@ -1,16 +1,34 @@
 var app = getApp();
 var x00, x01, y00, y01, x10, x11, y10, y11;
 var scale = 1, left = 0, top = 0;
-var cvszoom = require('../../utils/cvszoom.js');
-var cvs;
-var context = wx.createContext();
-var context2 = wx.createContext();
-var drawArray=[];
+var context = wx.createContext();//展示
+var contextArray = [];//展示
+var context2 = wx.createContext();//记录
+var drawArrays = [];//所有
+
+//画布重绘
+function redraw() {
+  console.log('重绘');
+  context.scale(scale, scale);
+  context.translate(left,top);
+  wx.drawCanvas({
+    canvasId: 'target',
+    actions: context.getActions(),
+    reserve: false
+  });//清空画布
+  drawArrays.forEach(function(value){
+    wx.drawCanvas({
+      canvasId: 'target',
+      actions: value,
+      reserve: true
+    });
+  });
+}
 Page({
   data: {
     operate: "moveandzoom",
-    width:100,
-    height:100
+    width: 100,
+    height: 100
   },
   moveandzoom: function () {
     this.data.operate = "moveandzoom";
@@ -47,13 +65,15 @@ Page({
         var t = e.touches;
         x00 = t[0].x;
         y00 = t[0].y;
+        contextArray = [];
+        //context展示
         context.beginPath();
         context.setLineWidth(10);
         context.setLineCap("round");
         context.setLineJoin("round");
-        context.setStrokeStyle("#000000")
-        context.moveTo(x00, y00);
-        
+        context.setStrokeStyle("#000000");
+        contextArray = context.getActions();
+        //context2记录
         context2.setLineWidth(10);
         context2.setLineCap("round");
         context2.setLineJoin("round");
@@ -73,8 +93,16 @@ Page({
           x11 = t[1].x;
           y10 = t[0].y;
           y11 = t[1].y;
-          scale = Math.sqrt(((x11 - x10) * (x11 - x10) + (y11 - y10) * (y11 - y10)) / ((x01 - x00) * (x01 - x00) + (y01 - y00) * (y01 - y00)));
-          cvs&&cvs.scale(scale);
+          var newscale = Math.sqrt(((x11 - x10) * (x11 - x10) + (y11 - y10) * (y11 - y10)) / ((x01 - x00) * (x01 - x00) + (y01 - y00) * (y01 - y00)));
+          var s=newscale/scale
+          context.scale(s, s);
+          var scale=newscale;
+          wx.drawCanvas({
+            canvasId: 'target',
+            actions: context.getActions(),
+            reserve: false
+          });
+          redraw();
         }
         if (e.touches.length == 1) {//移动单指操作
           var t = e.touches;
@@ -82,7 +110,15 @@ Page({
           y10 = t[0].y;
           var x = x10 - x00;
           var y = y10 - y00;
-          cvs&&cvs.move(x, y);
+          left=left+x;
+          top=top+y;
+          context.translate(x,y);
+          wx.drawCanvas({
+            canvasId: 'target',
+            actions: context.getActions(),
+            reserve: false
+          });
+          redraw();
           x00 = x10;
           y00 = y10;
         }
@@ -93,15 +129,17 @@ Page({
       case "markStroke":
         console.log("markStrokemove");
         var t = e.touches;
-        if(x00 == t[0].x && y00 == t[0].y) return;
+        if (x00 == t[0].x && y00 == t[0].y) return;
+        context.moveTo(x00, y00);
         x00 = t[0].x;
-        y00 = t[0].y;      
-        context.lineTo(x00,y00);
-        context2.lineTo(x00,y00);
+        y00 = t[0].y;
+        context.lineTo(x00, y00);
+        context2.lineTo(x00, y00);
         context.stroke();
         wx.drawCanvas({
           canvasId: 'target',
-          actions: context.getActions()
+          actions: contextArray.concat(context.getActions()),
+          reserve: true
         });
         break;
     }
@@ -116,7 +154,25 @@ Page({
         break;
       case "markStroke":
         console.log("markStrokeend");
-        context.
+        var t = e.changedTouches;
+        if (x00 == t[0].x && y00 == t[0].y) {
+          context2.stroke();
+          drawArray = drawArray.concat(context2.getActions());
+          return;
+        }
+        context.moveTo(x00, y00);
+        x00 = t[0].x;
+        y00 = t[0].y;
+        context.lineTo(x00, y00);
+        context.stroke();
+        context2.lineTo(x00, y00);
+        context2.stroke();
+        drawArray = drawArray.concat(context2.getActions());
+        wx.drawCanvas({
+          canvasId: 'target',
+          actions: contextArray.concat(context.getActions()),
+          reserve: true
+        });
         break;
     }
   },
@@ -139,43 +195,53 @@ Page({
       },
     });
   },
-  onLoad:function(){
+  onLoad: function () {
     this.setData({
-      width:app.w,
-      height:app.h-200
+      width: app.w,
+      height: app.h - 200
     });
   },
   onReady: function () {
     var self = this;
     console.log(app.w);
     console.log(app.h);
+
+    //画图
     // cvs = cvszoom({
     //   canvasId: 'target',
     //   width: app.w,
     //   height: app.h - 40
     // }, app.imgObj.imgPath);
-
-
-        context.beginPath();
-        context.setLineWidth(10);
-        context.setLineCap("round");
-        context.setLineJoin("round");
-        context.setStrokeStyle("#000000")
-        context.moveTo(100, 100);
-        context.lineTo(200,200);
-        context.stroke();
-        wx.drawCanvas({
-          canvasId: 'target',
-          actions: context.getActions(),
-          reserve:true
-        });  
-        context.moveTo(200, 200);     
-        context.lineTo(100,200);
-        context.stroke();
-        wx.drawCanvas({
-          canvasId: 'target',
-          actions: context.getActions(),
-          reserve:true
-        });
+    context.rotate(24 * Math.PI / 180)
+           wx.drawCanvas({
+            canvasId: 'target',
+            actions: context.getActions(),
+            reserve: false
+          });   
+    context.beginPath();
+    context.setLineWidth(10);
+    context.setLineCap("round");
+    context.setLineJoin("round");
+    context.setStrokeStyle("#000000")
+    context.moveTo(100, 100);
+    context.lineTo(200, 200);
+    context.stroke();
+    contextArray=context.getActions();
+    wx.drawCanvas({
+      canvasId: 'target',
+      actions: contextArray,
+      reserve: true
+    });
+    drawArrays.push(contextArray);
+    context.moveTo(200, 200);
+    context.lineTo(100, 200);
+    context.stroke();
+    contextArray=context.getActions();
+    wx.drawCanvas({
+      canvasId: 'target',
+      actions: contextArray,
+      reserve: true
+    });
+    drawArrays.push(contextArray);
   }
 })

@@ -1,9 +1,9 @@
-.container{
-  position: fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: block;
   align-items: center;
   box-sizing: border-box;
@@ -13,17 +13,58 @@
   padding: 0;
   overflow: hidden;
 }
-.tools{
-  height:40px;
-  width:100%;
+
+.tools {
+  height: 30px;
+  width: 100%;
   display: flex;
 }
-button{
+
+button {
   flex: 1;
   border-radius: 0;
   outline: 0;
   margin: 0;
   padding: 0;
   font-size: 14px;
-  line-height: 40px;
+  line-height: 30px;
+}
+
+button.active {
+  color: #fff;
+  background-color: #1aad19;
+}
+
+.mtbar {
+  padding: 10px;
+  width:100%;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #eee;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.mtbar .section {
+  padding-top: 10px;
+}
+
+.mtbar .title{
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.mtbar input{
+background-color: #fff;
+}
+.mtbar .section_title{
+  padding-bottom: 5px;
+}
+.radio-group,slider,input{
+  margin: 5px 14px;
+}
+.buttons{
+  margin: 20px;
 }

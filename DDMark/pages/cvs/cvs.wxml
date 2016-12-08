@@ -1,9 +1,34 @@
 <view class="container">
   <canvas disable-scroll="true" bindtouchstart="cvsStart" bindtouchmove="cvsMove" bindtouchend="cvsEnd" canvas-id="target" id="target" style='width:{{width}}px;height:{{height}}px'></canvas>
   <view class="tools">
-    <button catchtap="moveandzoom">移动缩放</button>
-    <button catchtap="markStroke">画图标记</button>
-    <button catchtap="markText">文字注记</button>
+    <button class="{{mzclass}}" catchtap="moveandzoom">移动缩放</button>
+    <button class="{{msclass}}" catchtap="markStroke">画图标记</button>
+    <button class="{{mtclass}}" catchtap="markText">文字注记</button>
     <button catchtap="saveimg">保存图片</button>
+  </view>
+  <view class="mtbar" style="display:{{mtbarVisble?'block':'none'}}">
+    <view class="section title">
+      文字注记设置
+    </view>
+    <view class="section item">
+      <view class="section_title">◆注记文字:</view>
+      <input bindinput="textinput" placeholder="在这里输入注记文字" auto-focus/>
+    </view>
+    <view class="section item">
+      <view class="section_title">◆字体大小:</view>
+      <slider bindchange="textsizechange" value="12" min="1" max="80" show-value />
+    </view>
+    <view class="section item">
+      <view class="section_title">◆字体颜色:</view>
+      <radio-group class="radio-group" bindchange="textColorChange">
+        <label class="radio" wx:for="{{textColors}}" wx:key="item" style="color:{{item.name}}" >
+          <radio value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+        </label>
+      </radio-group>
+    </view>
+    <view class="sectiion buttons" style="text-align:center">
+      <button catchtouchend="settext" size="mini" type="primary" style="margin:0 20px;">确定</button>
+      <button catchtouchend="closetext" size="mini" type="default" style="margin:0 20px;">关闭</button>
+    </view>
   </view>
 </view>

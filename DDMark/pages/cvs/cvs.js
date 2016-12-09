@@ -86,19 +86,20 @@ Page({
         this.setData({
             mtbarVisble: false,
         });
-
-        context.setFontSize(texttemp.size);
-        context.setFillStyle(texttemp.color);
-        context.fillText(texttemp.text, 50, 50);
-        var temp = context.getActions();
-        
-        if(texttemp.index==0){
-            textArrays.push(temp);
-            texttemp.index=textArrays.length-1;
-        }else{
-            textArrays[texttemp.index]=temp;
+        if(texttemp.text!=""){
+            context.setFontSize(texttemp.size);
+            context.setFillStyle(texttemp.color);
+            context.fillText(texttemp.text, 50, 50);
+            var temp = context.getActions();
+            
+            if(texttemp.index==0){
+                textArrays.push(temp);
+                texttemp.index=textArrays.length-1;
+            }else{
+                textArrays[texttemp.index]=temp;
+            }
+            redraw();
         }
-        redraw();
     },
     //startstartstartstartstartstartstartstartstartstartstartstartstartstartstartstartstart
     cvsStart: function (e) {
@@ -320,30 +321,30 @@ Page({
         }
 
 
-        context.beginPath();
-        context.setLineWidth(10);
-        context.setLineCap("round");
-        context.setLineJoin("round");
-        context.setStrokeStyle("#000000")
-        context.moveTo(100, 100);
-        context.lineTo(200, 200);
-        context.stroke();
-        contextArray = context.getActions();
-        wx.drawCanvas({
-            canvasId: 'target',
-            actions: contextArray,
-            reserve: true
-        });
-        drawArrays.push(contextArray);
-        context.moveTo(200, 200);
-        context.lineTo(100, 200);
-        context.stroke();
-        contextArray = context.getActions();
-        wx.drawCanvas({
-            canvasId: 'target',
-            actions: contextArray,
-            reserve: true
-        });
-        drawArrays.push(contextArray);
+        // context.beginPath();
+        // context.setLineWidth(10);
+        // context.setLineCap("round");
+        // context.setLineJoin("round");
+        // context.setStrokeStyle("#000000")
+        // context.moveTo(100, 100);
+        // context.lineTo(200, 200);
+        // context.stroke();
+        // contextArray = context.getActions();
+        // wx.drawCanvas({
+        //     canvasId: 'target',
+        //     actions: contextArray,
+        //     reserve: true
+        // });
+        // drawArrays.push(contextArray);
+        // context.moveTo(200, 200);
+        // context.lineTo(100, 200);
+        // context.stroke();
+        // contextArray = context.getActions();
+        // wx.drawCanvas({
+        //     canvasId: 'target',
+        //     actions: contextArray,
+        //     reserve: true
+        // });
+        // drawArrays.push(contextArray);
     }
 })

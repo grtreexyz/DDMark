@@ -1,4 +1,8 @@
 <!--index.wxml-->
 <view class="container">
   <button bindtap="bindTap" class="choose" type="primary" style="display:{{buttonstatus}}">选择图片</button>
+  <view class="bottombar">
+      <button class="{{mzclass}}" catchtap="moveandzoom">移动缩放</button>
+      <button class="{{msclass}}" catchtap="markStroke">画图标记</button>
+  </view>
 </view>

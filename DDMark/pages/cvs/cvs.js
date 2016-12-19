@@ -14,12 +14,17 @@ var texttemp = {
     size: 12,
     text: "",
     color: '#000000',
-    index:0,
+    index: 0,
+};
+var stroketemp = {
+    size: 10,
+    color: '#000000',
+    index: 0,
 };
 //画布重绘
 function redraw() {
-    context.scale(scale, scale);
     context.translate(left, top);
+    context.scale(scale, scale);
     var all = [];
     drawArrays.forEach(function (value) {
         all = all.concat(value);
@@ -39,6 +44,7 @@ Page({
         operate: "moveandzoom",
         width: 100,
         height: 100,
+        top: 0,
         mzclass: 'active',
         msclass: '',
         mtclass: '',
@@ -48,12 +54,13 @@ Page({
             { name: '#ffffff', value: '白色' },
             { name: '#00ff00', value: '绿色' },
             { name: '#0000ff', value: '蓝色' },
-            { name: '#ff0000', value: '黄色' },
+            { name: '#ffff00', value: '黄色' },
         ],
         mtbarVisble: false,
     },
     moveandzoom: function () {
         this.setData({
+            top: 0,
             operate: "moveandzoom",
             mzclass: 'active',
             msclass: '',
@@ -62,14 +69,17 @@ Page({
     },
     markStroke: function () {
         this.setData({
+            top: '-100%',
             operate: "markStroke",
             mzclass: '',
             msclass: 'active',
-            mtclass: ''
+            mtclass: '',
+            msbarVisble: true,
         });
     },
     markText: function () {
         this.setData({
+            top: '-100%',
             operate: "markText",
             mzclass: '',
             msclass: '',
@@ -79,27 +89,41 @@ Page({
     },
     closetext: function () {
         this.setData({
+            top: 0,
             mtbarVisble: false,
         });
     },
     settext: function () {
         this.setData({
+            top: 0,
             mtbarVisble: false,
         });
-        if(texttemp.text!=""){
-            context.setFontSize(texttemp.size);
+        if (texttemp.text != "") {
+            context.setFontSize(texttemp.size/scale);
             context.setFillStyle(texttemp.color);
-            context.fillText(texttemp.text, 50, 50);
+            context.fillText(texttemp.text, 50/scale-left/scale, 50/scale-top/scale);
             var temp = context.getActions();
-            
-            if(texttemp.index==0){
+
+            if (texttemp.index == 0) {
                 textArrays.push(temp);
-                texttemp.index=textArrays.length-1;
-            }else{
-                textArrays[texttemp.index]=temp;
+                texttemp.index = textArrays.length - 1;
+            } else {
+                textArrays[texttemp.index] = temp;
             }
             redraw();
         }
+    },
+    closeStroke: function () {
+        this.setData({
+            top: 0,
+            msbarVisble: false,
+        });
+    },
+    setStroke: function () {
+        this.setData({
+            top: 0,
+            msbarVisble: false,
+        });
     },
     //startstartstartstartstartstartstartstartstartstartstartstartstartstartstartstartstart
     cvsStart: function (e) {
@@ -136,25 +160,28 @@ Page({
                     contextArray = [];
                     //context展示
                     context.beginPath();
-                    context.setLineWidth(10 * scale);
+                    context.setLineWidth(stroketemp.size / scale);
                     context.setLineCap("round");
                     context.setLineJoin("round");
-                    context.setStrokeStyle("#000000");
+                    context.setStrokeStyle(stroketemp.color);
                     contextArray = context.getActions();
                     //context2记录
-                    context2.setLineWidth(10 * scale);
+                    context2.setLineWidth(stroketemp.size / scale);
                     context2.setLineCap("round");
                     context2.setLineJoin("round");
-                    context2.setStrokeStyle("#000000");
+                    context2.setStrokeStyle(stroketemp.color);
                     context2.beginPath();
-                    context2.moveTo(x00 - left, y00 - top);
+                    context2.moveTo(x00/scale-left/scale, y00/scale-top/scale);
                 }
                 break;
         }
+        
+        //console.log(scale,left,top,x00,y00);
     },
     //movemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemovemove
     cvsMove: function (e) {
         var self = this;
+        //console.log(scale,left,top);
         switch (self.data.operate) {
             case "moveandzoom":
                 if (e.touches.length == 2) { //双指缩放的手势操作
@@ -165,7 +192,9 @@ Page({
                     y11 = t[1].y;
                     var newscale = Math.sqrt(((x11 - x10) * (x11 - x10) + (y11 - y10) * (y11 - y10)) / ((x01 - x00) * (x01 - x00) + (y01 - y00) * (y01 - y00)));
                     scale = scale * newscale;
+                    scale = 1 * scale.toFixed(2);
                     redraw();
+                    x00 = x10, x01 = x11, y00 = y10, y01 = y11;
                 }
                 if (e.touches.length == 1) { //移动单指操作
                     var t = e.touches;
@@ -187,8 +216,8 @@ Page({
                     y10 = t[0].y;
                     var x = x10 - x00;
                     var y = y10 - y00;
-                    textArrays[texttemp.index][2].data[1]+=x;
-                    textArrays[texttemp.index][2].data[2]+=y;
+                    textArrays[texttemp.index][2].data[1] += x/scale;
+                    textArrays[texttemp.index][2].data[2] += y/scale;
                     redraw();
                     x00 = x10;
                     y00 = y10;
@@ -199,11 +228,11 @@ Page({
                 if (e.touches.length == 1) { //移动单指操作
                     var t = e.touches;
                     if (x00 == t[0].x && y00 == t[0].y) return;
-                    context.moveTo(x00 - left, y00 - top);
+                    context.moveTo(x00/scale-left/scale, y00/scale-top/scale);
                     x00 = t[0].x;
                     y00 = t[0].y;
-                    context.lineTo(x00 - left, y00 - top);
-                    context2.lineTo(x00 - left, y00 - top);
+                    context.lineTo(x00/scale-left/scale, y00/scale-top/scale);
+                    context2.lineTo(x00/scale-left/scale, y00/scale-top/scale);
                     context.stroke();
                     wx.drawCanvas({
                         canvasId: 'target',
@@ -213,6 +242,8 @@ Page({
                 }
                 break;
         }
+        
+        console.log(scale,left,top);
     },
     //endendendendendendendendendendendendendendendendendendendendendendendendendendendendendendendendendend
     cvsEnd: function (e) {
@@ -232,17 +263,17 @@ Page({
                         drawArrays.push(context2.getActions());
                         return;
                     }
-                    context.moveTo(x00 - left, y00 - top);
+                    context.moveTo(x00/scale-left/scale, y00/scale-top/scale);
                     x00 = t[0].x;
                     y00 = t[0].y;
-                    context.lineTo(x00 - left, y00 - top);
+                    context.lineTo(x00/scale-left/scale, y00/scale-top/scale);
                     context.stroke();
                     wx.drawCanvas({
                         canvasId: 'target',
                         actions: contextArray.concat(context.getActions()),
                         reserve: true
                     });
-                    context2.lineTo(x00 - left, y00 - top);
+                    context2.lineTo(x00/scale-left/scale, y00/scale-top/scale);
                     context2.stroke();
                     drawArrays.push(context2.getActions());
                 }
@@ -262,6 +293,14 @@ Page({
         texttemp.size = e.detail.value;
         console.log('input发生change事件，携带value值为：', e.detail.value)
     },
+    strokeColorChange: function (e) {
+        stroketemp.color = e.detail.value;
+        console.log('radio发生change事件，携带value值为：', e.detail.value)
+    },
+    strokeSizeChange: function (e) {
+        stroketemp.size = e.detail.value;
+        console.log('input发生change事件，携带value值为：', e.detail.value)
+    },
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     saveimg: function () {
         wx.canvasToTempFilePath({
@@ -270,6 +309,15 @@ Page({
                 wx.saveFile({
                     tempFilePath: res.tempFilePath,
                     success: function (res) {
+                        wx.showModal({
+                            title: '提示',
+                            content: '保存成功！',
+                            success: function (res) {
+                                if (res.confirm) {
+                                    console.log('用户点击确定')
+                                }
+                            }
+                        })
                         console.log('saved::' + res.savedFilePath);
                     },
                     complete: function (e) {
@@ -285,13 +333,18 @@ Page({
     onLoad: function () {
         this.setData({
             width: app.w,
-            height: app.h - 300
+            height: app.h - 30
         });
     },
     onReady: function () {
         var self = this;
         console.log(app.w);
         console.log(app.h);
+        wx.drawCanvas({
+                        canvasId: 'target',
+                        actions: [],
+                        reserve: false
+                    });
         var initSize = 0.95;
         if (app.imgObj.imgPath) {
             wx.getImageInfo({
@@ -310,41 +363,21 @@ Page({
                         scale = initSize * w / fullWidth;
                     }
                     var context = wx.createContext();
-
-                    var context = wx.createContext();
                     context.drawImage(app.imgObj.imgPath, fullWidth * (1 - initSize) / 2, fullHeight * (1 - initSize) / 2, initSize * fullWidth, initSize * fullHeight);
                     contextArray = context.getActions();
                     drawArrays.push(contextArray);
                     redraw();
                 }
             });
+        } else {
+            this.setData({
+                top: "-100%",
+                operate: "markStroke",
+                mzclass: '',
+                msclass: 'active',
+                mtclass: '',
+                msbarVisble: true,
+            });
         }
-
-
-        // context.beginPath();
-        // context.setLineWidth(10);
-        // context.setLineCap("round");
-        // context.setLineJoin("round");
-        // context.setStrokeStyle("#000000")
-        // context.moveTo(100, 100);
-        // context.lineTo(200, 200);
-        // context.stroke();
-        // contextArray = context.getActions();
-        // wx.drawCanvas({
-        //     canvasId: 'target',
-        //     actions: contextArray,
-        //     reserve: true
-        // });
-        // drawArrays.push(contextArray);
-        // context.moveTo(200, 200);
-        // context.lineTo(100, 200);
-        // context.stroke();
-        // contextArray = context.getActions();
-        // wx.drawCanvas({
-        //     canvasId: 'target',
-        //     actions: contextArray,
-        //     reserve: true
-        // });
-        // drawArrays.push(contextArray);
     }
 })

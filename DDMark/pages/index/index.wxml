@@ -2,7 +2,8 @@
 <view class="container">
   <button bindtap="bindTap" class="choose" type="primary" style="display:{{buttonstatus}}">选择图片</button>
   <view class="bottombar">
-      <button class="{{mzclass}}" catchtap="moveandzoom">移动缩放</button>
-      <button class="{{msclass}}" catchtap="markStroke">画图标记</button>
+      <navigator url="/pages/history/history" >读取历史</navigator >
+      <navigator url="/pages/cvs/cvs?stroke=true" >直接画图</navigator >
+      <navigator url="/pages/help/help" >帮助反馈</navigator >
   </view>
 </view>

@@ -1,0 +1,15 @@
+
+<!--pages/history/history.wxml-->
+<view class="title">保存过的文件</view>
+<view class="trtitle">
+  <view class="td">文件缩略图</view>
+  <view class="td">创建日期及大小</view>
+</view>
+<view class="table" wx:for="{{files}}" wx:key="item">
+  <view class="tr" bindtap="openimage" data-src="{{item.filePath}}">
+    <image class="td" style="width:100px;height:100px;background-color: #eeeeee;" mode="aspectFit" src="{{item.filePath}}"></image>
+    <view class="td">
+      <text>{{item.createTime}}\n{{item.size}}</text>
+    </view>
+  </view>
+</view>

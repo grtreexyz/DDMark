@@ -20,15 +20,18 @@
   display: flex;
   position: absolute;
   bottom: 0;
-  left:0;
+  left: 0;
+  z-index: 2;
 }
-canvas{
+
+canvas#target {
   position: absolute;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   z-index: 1;
 }
-button {
+
+.tools button {
   flex: 1;
   border-radius: 0;
   outline: 0;
@@ -43,9 +46,9 @@ button.active {
   background-color: #1aad19;
 }
 
-.mtbar,.msbar {
+.mtbar, .msbar, .mhbar {
   padding: 10px;
-  width:100%;
+  width: 100%;
   height: auto;
   position: fixed;
   bottom: 0;
@@ -56,24 +59,78 @@ button.active {
   box-sizing: border-box;
 }
 
+view.mhbar {
+  padding-top: 30px;
+  height: 100vh;
+  box-sizing: border-box;
+  bottom: 30px;
+}
+
 .section {
   padding-top: 10px;
 }
 
-.title{
+.title {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
 }
-input{
-background-color: #fff;
+
+input {
+  background-color: #fff;
 }
-.section_title{
+
+.section_title {
   padding-bottom: 5px;
 }
-.radio-group,slider,input{
+
+.radio-group, slider, input {
   margin: 5px 14px;
 }
-.buttons{
+
+.buttons {
   margin: 20px;
+}
+
+.tr {
+  width: 100%;
+  display: flex;
+}
+
+.td {
+  flex: 1;
+  border: 1px solid #000;
+  text-align: center;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.td3 {
+  flex: 3;
+  border-right:0; 
+}
+
+.drawtd{
+  border: 1px solid #000;
+  width:50%;
+  box-sizing: border-box;
+  float: left;
+  height: 100px;
+  white-space: nowrap;
+}
+.inlinecanvas{
+  display: inline-block;
+}
+scroll-view button.delbtn{
+  display: inline-block;
+  border-radius: 0;
+  outline: 0;
+  margin: 1px auto;
+  padding: 0;
+  font-size: 12px;
+  width:50px;
+}
+
+.mhbar buttons button.active{
+  border-bottom: 3px solid #000;
 }

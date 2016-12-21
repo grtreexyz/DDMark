@@ -4,6 +4,7 @@
     <button class="{{mzclass}}" catchtap="moveandzoom">移动缩放</button>
     <button class="{{msclass}}" catchtap="markStroke">画图标记</button>
     <button class="{{mtclass}}" catchtap="markText">文字注记</button>
+    <button class="{{mhclass}}" catchtap="markHistory">操作历史</button>
     <button catchtap="saveimg">保存图片</button>
   </view>
 </view>
@@ -52,4 +53,33 @@
     <button catchtouchend="setStroke" size="mini" type="primary" style="margin:0 20px;">确定</button>
     <button catchtouchend="closeStroke" size="mini" type="default" style="margin:0 20px;">关闭</button>
   </view>
+</view>
+<view class="mhbar" style="display:{{mhbarVisble?'block':'none'}}">
+  <view class="section title">
+    操作历史记录
+  </view>
+  <view class="section buttons">
+    <button bindtap="drawsHistory" size="mini" style="margin:0 20px;">画图历史</button>
+    <button bindtap="textsHistory" size="mini" style="margin:0 20px;">文字历史</button>
+  </view>
+  <scroll-view class="scrollbox draws" style="display:{{drawHistoryVisble?'block':'none'}}">
+    <view class="table">
+        <view class="drawtd"  wx:for="{{drawsobj}}" wx:key="*this">
+          <canvas class="inlinecanvas" canvas-id="draw{{index}}" style="width:100px;height:100px;"></canvas>
+          <button class="delbtn"  size="mini" bindtap="delDraw" type="primary" data-index="{{index}}">删除</button>
+        </view>
+    </view>
+  </scroll-view>
+  <scroll-view class="scrollbox texts" style="display:{{textHistoryVisble?'block':'none'}}">
+    <view class="table">
+      <view class="tr" wx:for="{{textsobj}}" wx:key="*this">
+        <view class="td td3">
+          <canvas canvas-id="text{{index}}" style="width:100%;height:20px;"></canvas>
+        </view>
+        <view class="td">
+          <button class="delbtn" bindtap="delText" type="primary" data-index="{{index}}">删除</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
 </view>
